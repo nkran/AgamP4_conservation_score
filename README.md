@@ -2,6 +2,8 @@
 
 Scripts used for generating, processing and fetching the genome conservation score (Cs) for _Anopheles gambiae_ (AgamP4) genome.
 
+Publication: https://doi.org/10.3390/insects12020097
+
 ## Create and activate Conda environment
 Make sure you have Conda installed on your system beforehand. You can read more about how to install it here: https://docs.conda.io/projects/conda/en/latest/user-guide/install
 
