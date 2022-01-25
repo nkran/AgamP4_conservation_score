@@ -42,11 +42,9 @@ class ConservationScore:
 
     def _parse_region(self, region_string):
         
-        chr_sizes = pd.read_csv('data/chr_sizes.txt', sep='\t')
-
         if ':' in region_string:
             chromosome, positions = region_string.split(':')
-            if chromosome not in chr_sizes['chrom'].values:
+            if chromosome not in ['2L', '2R', '3L', '3R', 'X']:
                 print(f'Chromosome {chromosome} does not exist in the dataset.')
                 print(f'Available chromosomes are: 2L, 2R, 3L, 3R and X.')
                 exit()

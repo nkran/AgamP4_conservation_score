@@ -1,9 +1,13 @@
 [tool.poetry]
-name = "agamp4_conservation"
-version = "0.1.0"
+name = "agam_conservation"
+version = "0.2.0"
 description = ""
 authors = ["Nace Kranjc <nkranjc@ic.ac.uk>"]
 license = "MIT"
+packages = [
+    { include = 'data' }
+]
+include = ["data/*.gff3"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
