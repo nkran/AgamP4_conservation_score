@@ -93,4 +93,4 @@ chromosome	pos	        Cs
 ```
 
 ## Contact information
-For additional information, help and bug reports please send an email to n.kranjc@imperial.ac.uk.
+For additional information, help and bug reports please send an email to nace.kranjc (at) gmail.com.
