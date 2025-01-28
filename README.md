@@ -9,15 +9,15 @@ Make sure you have Conda installed on your system beforehand. You can read more 
 
 First, clone this repository.
 ```
-git clone git@github.com:nkran/AgamP4_conservation_score.git
+git clone https://github.com/nkran/AgamP4_conservation_score.git
 cd AgamP4_conservation_score/
 ```
 
 Create an environment and install all needed dependencies:
 ```
-conda create --name AgamP4-Cs python=3.7
+conda create --name AgamP4-Cs python=3.11
 conda activate AgamP4-Cs
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Download the dataset

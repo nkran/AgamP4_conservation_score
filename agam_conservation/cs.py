@@ -267,7 +267,7 @@ class ConservationScore:
     def plot(self, region_str, array='Cs', include_arrays=['Cs'], save_to=None):
         # Load geneset and save it to pandas dataframe
         
-        geneset_agam = allel.FeatureTable.from_gff3('data/AgamP4.12.gff3',
+        geneset_agam = allel.FeatureTable.from_gff3('../data/AgamP4.12.gff3',
                                                     attributes=['ID', 'Parent', 'Name'])
 
         array_names={'Cs': 'Conservation score', 'phyloP': 'pyhloP', 'snp_density': "SNP density (bp-1)"}
