@@ -270,30 +270,42 @@ class ConservationScore:
         geneset_agam = allel.FeatureTable.from_gff3('../data/AgamP4.12.gff3',
                                                     attributes=['ID', 'Parent', 'Name'])
 
-        array_names={'Cs': 'Conservation score', 'phyloP': 'pyhloP', 'snp_density': "SNP density (bp-1)"}
-        array_limits={'Cs': 1, 'phyloP': 3, 'snp_density': 1}
+        array_names={'Cs': 'Conservation score', 'phyloP': 'pyhloP', 'snp_density': "SNP density (bp-1)", 'stack': 'Sequence identity (%)', 'stack_norm': 'Normalised sequence identity (%)'}
+        array_limits={'Cs': 1, 'phyloP': 3, 'snp_density': 1, 'stack': 100, 'stack_norm': 100}
 
         geneset_agam = self._geneset_to_pandas(geneset_agam)
         chromosome, start, end = self._parse_region(region_str)
         start, end = int(start), int(end)
         
         fig, ax = plt.subplots(len(include_arrays) + 1,1, figsize=(20, (len(include_arrays) + 1) * 4))
-
         self._plot_transcripts(geneset_agam, chromosome, start, end, label_codons=False, label_exons=True, ax=ax[0])
         
         with h5py.File(self.data_path, mode='r+') as data_h5:
-            for i, array in enumerate(include_arrays):
-                if array in ['Cs', 'phyloP', 'snp_density']:
-                    data = data_h5[chromosome][array][0,start:end]
+            for i, c_array in enumerate(include_arrays):
+                
+                if c_array in ['Cs', 'phyloP', 'snp_density']:
+                    data = data_h5[chromosome][c_array][0,start:end]
                     ax[i+1].plot(data, color='gray', alpha=.7)
-                    ax[i+1].set_ylabel(array_names[array])
-                    ax[i+1].set_ylim(0, array_limits[array])
+                    ax[i+1].set_ylabel(array_names[c_array])
+                    ax[i+1].set_ylim(0, array_limits[c_array])
                     ax[i+1].set_xlim(0, len(data))
-                    sns.despine(ax=ax[i+1], offset=5)
+                    ax[i+1].set_xticklabels([humanize.intcomma(int(x)) for x in ax[0].get_xticks()])
+                    
+                elif c_array in ['stack', 'stack_norm']:
+                    data = data_h5[chromosome][c_array][:,start:end]
+                    row_names = data_h5[chromosome][c_array].attrs['rows']
+                    mask = data == 0
+                    sns.heatmap(data, yticklabels=row_names, mask=mask, vmax=100, vmin=0, xticklabels=False, cbar=False, cmap='YlOrRd')
+                    ax[i+1].set_ylabel(array_names[c_array])                    
+                    ax[i+1].legend(loc='center left', bbox_to_anchor=(1, 0.5))
+                    ax[i+1].axhline(0, color='black', lw=2)
+                    ax[i+1].axhline(len(row_names), color='black', lw=2)
+                    ax[i+1].axvline(0, color='black', lw=2)
+                    ax[i+1].axvline(end-start, color='black', lw=2)
                 else:
-                    raise ValueError(f'{array} not in the database.')
+                    raise ValueError(f'{c_array} not in the database.')
 
-        sns.despine(ax=ax[0], left=True, offset=5)
+        sns.despine(ax=ax[0], left=True)
         
         if save_to:
             plt.savefig(f'{save_to}', dpi=300)

@@ -8,3 +8,4 @@ notebook
 scikit-allel
 seaborn
 humanize
+scikit-learn
